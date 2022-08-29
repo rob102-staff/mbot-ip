@@ -3,6 +3,7 @@ import os
 import json
 import argparse
 import datetime
+LOG_FILE="/home/pi/update_ip_log.txt"
 
 def update_ip_file(hostname, ipaddr, cur_time):
     info = {
@@ -10,6 +11,10 @@ def update_ip_file(hostname, ipaddr, cur_time):
         "ip": ipaddr,
         "last_update": cur_time.strftime('%d_%b_%Y_%I:%M:%S %p')
     }
+    with open(LOG_FILE, 'w') as f:
+        f.write(hostname)
+        f.write(ipaddr)
+        f.write(cur_time.strftime('%d_%b_%Y_%I:%M:%S %p'))
     json_obj = json.dumps(info, indent=4)
     with open(os.path.join(os.getcwd(), "{}.json".format(hostname)), "w") as outfile:
         outfile.write(json_obj)
@@ -24,7 +29,8 @@ def update_ip_file(hostname, ipaddr, cur_time):
 #     except:
 #         print("Some error when pushing code")
 if __name__ == '__main__':
-    print("Running....")
+    with open(LOG_FILE, 'w') as f:
+        f.write("RUNNING...")
     parser = argparse.ArgumentParser()
     parser.add_argument("-hostname", type=str, help="Hostname of this bot")
     parser.add_argument("-ip", type=str, help="IP of this bot")
