@@ -13,8 +13,11 @@ def update_ip_file(hostname, ipaddr, cur_time):
     }
     with open(LOG_FILE, 'w') as f:
         f.write(hostname)
+        f.write("\n")
         f.write(ipaddr)
+        f.write("\n")
         f.write(cur_time.strftime('%d_%b_%Y_%I:%M:%S %p'))
+        f.write("\n")
     json_obj = json.dumps(info, indent=4)
     with open(os.path.join(os.getcwd(), "{}.json".format(hostname)), "w") as outfile:
         outfile.write(json_obj)
@@ -31,6 +34,7 @@ def update_ip_file(hostname, ipaddr, cur_time):
 if __name__ == '__main__':
     with open(LOG_FILE, 'w') as f:
         f.write("RUNNING...")
+        f.write("\n")
     parser = argparse.ArgumentParser()
     parser.add_argument("-hostname", type=str, help="Hostname of this bot")
     parser.add_argument("-ip", type=str, help="IP of this bot")
