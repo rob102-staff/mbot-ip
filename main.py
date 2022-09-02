@@ -14,7 +14,7 @@ def update_ip_file(hostname, ipaddr, cur_time, log_file=LOG_FILE):
         "ip": ipaddr,
         "last_update": cur_time.strftime('%d_%b_%Y_%I:%M:%S %p')
     }
-    with open(log_file, 'w') as f:
+    with open(log_file, 'a') as f:
         f.write(hostname)
         f.write("\n")
         f.write(ipaddr)
@@ -24,7 +24,7 @@ def update_ip_file(hostname, ipaddr, cur_time, log_file=LOG_FILE):
     json_obj = json.dumps(info, indent=4)
     with open(os.path.join(os.getcwd(), IP_DIR, "{}.json".format(hostname)), "w") as outfile:
         outfile.write(json_obj)
-        
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     parser.add_argument("-log", type=str, help="Log file location", default=LOG_FILE)
     args = parser.parse_args()
 
-    with open(args.log, 'w') as f:
+    with open(args.log, 'a') as f:
         f.write("RUNNING...")
         f.write("\n")
 
