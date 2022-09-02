@@ -8,13 +8,13 @@ LOG_FILE = "/home/pi/update_ip_log.txt"
 IP_DIR = "data"
 
 
-def update_ip_file(hostname, ipaddr, cur_time):
+def update_ip_file(hostname, ipaddr, cur_time, log_file=LOG_FILE):
     info = {
         "hostname": hostname,
         "ip": ipaddr,
         "last_update": cur_time.strftime('%d_%b_%Y_%I:%M:%S %p')
     }
-    with open(LOG_FILE, 'w') as f:
+    with open(log_file, 'w') as f:
         f.write(hostname)
         f.write("\n")
         f.write(ipaddr)
@@ -27,14 +27,17 @@ def update_ip_file(hostname, ipaddr, cur_time):
         
 
 if __name__ == '__main__':
-    with open(LOG_FILE, 'w') as f:
-        f.write("RUNNING...")
-        f.write("\n")
     parser = argparse.ArgumentParser()
     parser.add_argument("-hostname", type=str, help="Hostname of this bot")
     parser.add_argument("-ip", type=str, help="IP of this bot")
+    parser.add_argument("-log", type=str, help="Log file location", default=LOG_FILE)
     args = parser.parse_args()
+
+    with open(args.log, 'w') as f:
+        f.write("RUNNING...")
+        f.write("\n")
+
     utctoday = datetime.datetime.utcnow() #UTC
     utc2est = datetime.timedelta(hours=5)
     today = utctoday - utc2est #EST
-    update_ip_file(args.hostname, args.ip, today)
+    update_ip_file(args.hostname, args.ip, today, log_file=args.log)
