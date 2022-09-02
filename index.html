@@ -1,0 +1,54 @@
+<html>
+
+<head>
+</head>
+
+<!--
+        TODO:
+            1. Fix repetition (delete table before updating)
+            2. Make pretty like joseph
+    
+    -->
+
+
+<body>
+    <h1>"This is the epic table for ROB 102 cool kids"</h1>
+    <table id="rob_table">
+        <tr>
+            <th>Robot Name</th>
+            <th>IP</th>
+            <th>Last Update</th>
+        </tr>
+        <div class="">
+
+        </div>
+    </table>
+</body>
+
+<script>
+    var fs = require('fs');
+    var filesnames = fs.readdirSync('/data')
+
+    var table = document.getElementById("rob_table");
+
+
+    filesnames.forEach(file => {
+        var json_info = JSON.parse(file);
+
+        var name = json_info["hostname"];
+        var ip = json_info["ip"];
+        var last_update = json_info["last_update"];
+
+        var row = table.insertRow(0);
+
+        var rob_name_cell = row.insertCell(0);
+        var rob_ip_cell = row.insertCell(1);
+        var rob_last_update_cell = row.insertCell(2);
+
+        rob_name_cell.innerHTML = name;
+        rob_ip_cell.innerHTML = ip;
+        rob_last_update_cell.innerHTML = last_update
+    });
+</script>
+
+</html>
